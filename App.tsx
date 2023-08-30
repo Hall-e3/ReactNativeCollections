@@ -8,6 +8,7 @@ import Animated, {
 import {OnboardingData, data} from './src/data/data';
 import RenderItem from './src/components/RenderItem';
 import Pagination from './src/components/Pagination';
+import CustomButton from './src/components/CustomButton';
 
 type ViewableItemsProps = {
   viewableItems: ViewToken[];
@@ -60,6 +61,12 @@ const App = () => {
 
       <View style={styles.bottomContainer}>
         <Pagination data={data} x={x} />
+        <CustomButton
+          flatlistRef={flatlistRef}
+          flatlistIndex={flatlistIndex}
+          dataLength={data.length}
+          x={x}
+        />
       </View>
     </View>
   );
@@ -76,6 +83,9 @@ const styles = StyleSheet.create({
     right: 0,
     marginHorizontal: 30,
     paddingVertical: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
 

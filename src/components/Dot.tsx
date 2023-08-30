@@ -4,6 +4,7 @@ import Animated, {
   Extrapolate,
   SharedValue,
   interpolate,
+  interpolateColor,
   useAnimatedStyle,
 } from 'react-native-reanimated';
 
@@ -41,7 +42,21 @@ const Dot = ({index, x}: Props) => {
     };
   });
 
-  return <Animated.View style={[styles.dot, animatedDotStyle]} />;
+  const animatedColor = useAnimatedStyle(() => {
+    const backgroundColor = interpolateColor(
+      x.value,
+      [0, SCREEN_WIDTH, 2 * SCREEN_WIDTH],
+      ['#005b4f', '#1e2169', '#f15937'],
+    );
+
+    return {
+      backgroundColor: backgroundColor,
+    };
+  });
+
+  return (
+    <Animated.View style={[styles.dot, animatedDotStyle, animatedColor]} />
+  );
 };
 
 export default Dot;
@@ -50,7 +65,6 @@ const styles = StyleSheet.create({
   dot: {
     width: 10,
     height: 10,
-    backgroundColor: 'black',
     borderRadius: 5,
     marginHorizontal: 10,
   },
