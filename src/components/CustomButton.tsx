@@ -35,6 +35,22 @@ const CustomButton = ({flatlistIndex, flatlistRef, x, dataLength}: Props) => {
       height: 60,
     };
   });
+
+  const textAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity:
+        flatlistIndex.value === dataLength - 1 ? withSpring(1) : withSpring(0),
+      transform: [
+        {
+          translateX:
+            flatlistIndex.value === dataLength - 1
+              ? withTiming(0)
+              : withTiming(-100),
+        },
+      ],
+    };
+  });
+
   const arrowAnimatedStyle = useAnimatedStyle(() => {
     return {
       width: 30,
@@ -74,7 +90,9 @@ const CustomButton = ({flatlistIndex, flatlistRef, x, dataLength}: Props) => {
       }}>
       <Animated.View
         style={[styles.container, animatedColor, buttonAnimatedStyle]}>
-        <Text>Get Started</Text>
+        <Animated.Text style={[styles.textButton, textAnimatedStyle]}>
+          Get Started
+        </Animated.Text>
         <Animated.Text style={[styles.text, arrowAnimatedStyle]}>
           Next
         </Animated.Text>
@@ -99,5 +117,10 @@ const styles = StyleSheet.create({
   text: {
     position: 'absolute',
     color: '#fff',
+  },
+  textButton: {
+    color: '#fff',
+    fontSize: 16,
+    position: 'absolute',
   },
 });
