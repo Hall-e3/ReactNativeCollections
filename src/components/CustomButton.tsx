@@ -11,6 +11,8 @@ import Animated, {
   SharedValue,
   interpolateColor,
   useAnimatedStyle,
+  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import {OnboardingData} from '../data/data';
 
@@ -23,6 +25,32 @@ type Props = {
 
 const CustomButton = ({flatlistIndex, flatlistRef, x, dataLength}: Props) => {
   const {width: SCREEN_WIDTH} = useWindowDimensions();
+
+  const buttonAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      width:
+        flatlistIndex.value === dataLength - 1
+          ? withSpring(140)
+          : withSpring(60),
+      height: 60,
+    };
+  });
+  const arrowAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      width: 30,
+      height: 30,
+      opacity:
+        flatlistIndex.value === dataLength - 1 ? withTiming(0) : withTiming(1),
+      transform: [
+        {
+          translateX:
+            flatlistIndex.value === dataLength - 1
+              ? withTiming(100)
+              : withTiming(0),
+        },
+      ],
+    };
+  });
 
   const animatedColor = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
@@ -44,8 +72,12 @@ const CustomButton = ({flatlistIndex, flatlistRef, x, dataLength}: Props) => {
           console.log('Navigate to next screen');
         }
       }}>
-      <Animated.View style={[styles.container, animatedColor]}>
-        <Text style={styles.text}>Next</Text>
+      <Animated.View
+        style={[styles.container, animatedColor, buttonAnimatedStyle]}>
+        <Text>Get Started</Text>
+        <Animated.Text style={[styles.text, arrowAnimatedStyle]}>
+          Next
+        </Animated.Text>
       </Animated.View>
     </TouchableWithoutFeedback>
   );
